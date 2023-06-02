@@ -1,30 +1,30 @@
 STEPS TO RUN ANY QUERY FOR PROJECTS ON JOERN CONSOLE
 
-CASE 1 : LOAD A PROJECT INTO JOERN 
+CASE 1: LOAD A PROJECT INTO JOERN 
 
-1. Open Joern console by opening your terminal on the path where the project you want to analyse is located and type: "JOERN"
-2. Replace the name of the folder containing the project, example for RIOT project: 
+1. Open the Joern console by opening your terminal on the path where the project you want to analyze is located and type: "JOERN"
+2. Replace the name of the folder containing the project, for example for the RIOT project: 
 Command: joern> importCode("RIOT-master") 
 
 CASE 2 : YOU NEED TO LOAD A WHOLE PROJECT INTO JOERN CONSOLE AND OBTAIN A JSON FILE WITH ALL FUNCTIONS OF THE PROJECT. 
 
-1. Open Joern console by opening your terminal on the path where the project you want to analyse is located. 
-2. Replace the name of the folder containing the project, example for RIOT project: 
+1. Open the Joern console by opening your terminal on the path where the project you want to analyze is located. 
+2. Replace the name of the folder containing the project, for example for the RIOT project: 
 Command: joern> importCode("RIOT-master") 
-3. Enter following query 
+3. Enter the following query 
 Command: joern> cpg.method.where(_.columnNumber).whereNot(_.name("<global>")).map(m=>(m.name, m.callee.whereNot(_.name("<operator>.*")).l.size,m.start.dump)).toJsonPretty |> "callperfunc_riot.json" 
 
-CASE 3 : YOU NEED TO FIND THE NUMBER OF EXTERNAL CALLS IN A PROJECT 
+CASE 3: YOU NEED TO FIND THE NUMBER OF EXTERNAL CALLS IN A PROJECT 
 
 1. Command: 
 joern> cpg.method.callee.filter(_.isExternal == true).whereNot(_.name("<operator>.*")).l.size 
 
-CASE 4 : YOU NEED TO FIND THE NUMBER OF INTERNAL CALLS IN A PROJECT 
+CASE 4: YOU NEED TO FIND THE NUMBER OF INTERNAL CALLS IN A PROJECT 
 
-1.Command: 
+1. Command: 
 joern> cpg.method.callee.filter(_.isExternal == false).whereNot(_.name("<operator>.*")).l.size 
 
-CASE 5 : YOU NEED TO FIND THE NUMBER OF FUNCTION DEFINITIONS 
+CASE 5: YOU NEED TO FIND THE NUMBER OF FUNCTION DEFINITIONS 
 
 1. Command 
-joern> cpg.method.where(_.columnNumber).whereNot(_.name("<global>")).l.size   
+joern> cpg.method.where(_.columnNumber).whereNot(_.name("<global>")).l.size  
