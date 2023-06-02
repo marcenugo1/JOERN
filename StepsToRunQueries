@@ -1,7 +1,25 @@
-STEPS TO SEPARATE PROJECT BY FUNCTION 
-OUTPUT: JSON FILE WITH ALL FUNCTIONS IN PROJECT 
+STEPS TO RUN ANY QUERY FOR PROJECTS ON JOERN CONSOLE
 
-1. Open Joern console by opening your terminal on the path where the project you want to analyse. 
-2. Enter the name of the folder containing the whole project, example for RIOT project: joern> importCode("RIOT-master") 
-3. Enter following query -> joern> 
-cpg.method.where(_.columnNumber).whereNot(_.name("<global>")).map(m=>(m.name, m.callee.whereNot(_.name("<operator>.*")).l.size,m.start.dump)).toJsonPretty |> "callperfunc_riot.json"  
+
+CASE 1: YOU NEED TO LOAD A WHOLE PROJECT INTO JOERN CONSOLE AND OBTAIN A JSON FILE WITH ALL FUNCTIONS OF THE PROJECT. 
+
+1. Open Joern console by opening your terminal on the path where the project you want to analyse is located. 
+2. Replace the name of the folder containing the project, example for RIOT project: 
+Command: joern> importCode("RIOT-master") 
+3. Enter following query 
+Command: joern> cpg.method.where(_.columnNumber).whereNot(_.name("<global>")).map(m=>(m.name, m.callee.whereNot(_.name("<operator>.*")).l.size,m.start.dump)).toJsonPretty |> "callperfunc_riot.json" 
+
+CASE 2 : YOU NEED TO FIND THE NUMBER OF EXTERNAL CALLS IN A PROJECT 
+
+1. Command: 
+joern> cpg.method.callee.filter(_.isExternal == true).whereNot(_.name("<operator>.*")).l.size 
+
+CASE 3: YOU NEED TO FIND THE NUMBER OF INTERNAL CALLS IN A PROJECT 
+
+1.Command: 
+joern> cpg.method.callee.filter(_.isExternal == false).whereNot(_.name("<operator>.*")).l.size 
+
+CASE 4: YOU NEED TO FIND THE NUMBER OF FUNCTION DEFINITIONS 
+
+1. Command 
+joern> cpg.method.where(_.columnNumber).whereNot(_.name("<global>")).l.size   
