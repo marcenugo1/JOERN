@@ -1,0 +1,7 @@
+STEPS TO SEPARATE PROJECT BY FUNCTION 
+OUTPUT: JSON FILE WITH ALL FUNCTIONS IN PROJECT 
+
+1. Open Joern console by opening your terminal on the path where the project you want to analyse. 
+2. Enter the name of the folder containing the whole project, example for RIOT project: joern> importCode("RIOT-master") 
+3. Enter following query -> joern> 
+cpg.method.where(_.columnNumber).whereNot(_.name("<global>")).map(m=>(m.name, m.callee.whereNot(_.name("<operator>.*")).l.size,m.start.dump)).toJsonPretty |> "callperfunc_riot.json"  
